@@ -1,0 +1,38 @@
+version: '3'
+networks:
+    # red que comparte servicio 
+    mysql-java:
+      driver: bridge
+    java-angular:
+      driver: bridge
+services:
+  bd:
+    build: ./bbdd
+    container_name: bd
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - "4100:3306"
+    networks:
+      - mysql-java
+  backend:
+    build: ./ServicioUsuario
+    container_name: apirest
+    ports:
+      - "4200:8080"
+    depends_on:
+      - bd
+    networks:
+      - mysql-java
+      - java-angular
+  frontend:
+    build: ./angular/app-usuarios
+    container_name: angular
+    ports:
+      - "8082:80"
+    depends_on:
+      - db
+      - backend
+    networks:
+      - java-angular
+  
