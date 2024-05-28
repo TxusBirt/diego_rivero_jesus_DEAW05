@@ -7,18 +7,18 @@ networks:
 services:
   bd:
     build: ./bbdd
-    container_name: bd
+    container_name: bd 
     environment:
       - MYSQL_ROOT_PASSWORD=root
     ports:
-      - "4100:3306"
+      - "4100:3306" #puerto de conexion dentro de contexto contenedor 3306
     networks:
       - mysql-java-angular
   backend:
     build: ./ServicioUsuario
     container_name: backend
     ports:
-      - "4200:8080"
+      - "4200:8080" # puerto que recibe solicitud de app angular 4200
     depends_on:
       - bd
     networks:
